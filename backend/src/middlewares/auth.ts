@@ -6,7 +6,7 @@ dotenv.config();
 
 export const PRIVATE_KEY = process.env.PRIVATE_KEY || 'chave-secreta-biblioteca';
 
-// Middleware para validar se o token existe e é válido
+// Middleware para validar se o token existe e é válido, vai abranger alunos tambem
 export const tokenValidated = function (req: Request, res: Response, next: NextFunction) {
     const [, token] = req.headers.authorization?.split(' ') || ['', ''];
 
