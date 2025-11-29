@@ -3,32 +3,32 @@ import { Sequelize, DataTypes } from 'sequelize';
 const emprestimoModel = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
   const Emprestimo = sequelize.define("emprestimo", {
     usuarioId: {
-      type: DataTypes.INTEGER,
+      type: dataTypes.INTEGER,
       allowNull: false
     },
     livroId: {
-      type: DataTypes.INTEGER,
+      type: dataTypes.INTEGER,
       allowNull: false
     },
     dataEmprestimo: {
-      type: DataTypes.DATE,
+      type: dataTypes.DATE,
       defaultValue: DataTypes.NOW
     },
     dataPrevistaDevolucao: {
-      type: DataTypes.DATE,
+      type: dataTypes.DATE,
       allowNull: false
     },
     dataDevolucao: {
-      type: DataTypes.DATE,
+      type: dataTypes.DATE,
       allowNull: true // Null enquanto não devolvido
     },
     status: {
-      type: DataTypes.ENUM('ativo', 'devolvido', 'atrasado'),
+      type: dataTypes.ENUM('ativo', 'devolvido', 'atrasado'),
       allowNull: false,
       defaultValue: 'ativo'
     },
     diasAtraso: {
-      type: DataTypes.INTEGER,
+      type: dataTypes.INTEGER,
       defaultValue: 0
     },
   });  

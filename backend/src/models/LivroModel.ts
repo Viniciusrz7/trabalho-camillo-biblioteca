@@ -3,19 +3,19 @@ import { Sequelize, DataTypes } from 'sequelize';
 const livroModel = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
     const Livro = sequelize.define("livro", {
         titulo: {
-            type: DataTypes.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
         autor: {
-            type: DataTypes.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
         editora: {
-            type: DataTypes.STRING,
+            type: dataTypes.STRING,
             allowNull: true
         },
         anoPublicacao: {
-            type: DataTypes.INTEGER,
+            type: dataTypes.INTEGER,
             allowNull: true
         },
         categoria: {
@@ -23,17 +23,17 @@ const livroModel = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
             allowNull: true
         },
         quantidadeTotal: {
-            type: DataTypes.INTEGER,
+            type: dataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1
         },
         quantidadeDisponivel: {
-            type: DataTypes.INTEGER,
+            type: dataTypes.INTEGER,
             allowNull: false,
             defaultValue: 1
         },
         localizacao: {
-            type: DataTypes.STRING,
+            type: dataTypes.STRING,
             allowNull: true
         }
     });
