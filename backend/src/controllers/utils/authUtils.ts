@@ -1,7 +1,8 @@
 import jsonwebtoken from 'jsonwebtoken';
 import { PRIVATE_KEY } from '../../middlewares/auth';
+import { IUsuario } from '../../models/types/types';
 
-export const gerarToken = (usuario: any) => {
+export const gerarToken = (usuario: IUsuario) => {
   return jsonwebtoken.sign(
     {
       user: JSON.stringify({
