@@ -28,6 +28,10 @@ const usuarioModel = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
         ativo: {
             type: dataTypes.BOOLEAN,
             defaultValue: true
+        },
+        refreshToken: {
+            type: dataTypes.STRING,
+            allowNull: true
         }
     });
     return Usuario;
