@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import config from '../../config/database';
+import config from '../config/database';
 import usuarioModel from './usuarioModel';
 import livroModel from './LivroModel';
 import emprestimoModel from './EmprestimoModel';
