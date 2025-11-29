@@ -31,7 +31,7 @@ const emprestimoModel = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
       type: dataTypes.INTEGER,
       defaultValue: 0
     },
-  });  
+  });
   return Emprestimo;
 };
 

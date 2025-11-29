@@ -25,7 +25,7 @@ const multaModel = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
       allowNull: true
     },
   });
-  
+
   return Multa;
 };
 

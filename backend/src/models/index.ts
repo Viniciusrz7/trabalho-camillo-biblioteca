@@ -17,6 +17,7 @@ const db = {
 };
 
 // Relacionamentos
+
 // Um usuário pode ter vários empréstimos
 db.Usuario.hasMany(db.Emprestimo, { foreignKey: 'usuarioId' });
 // Cada empréstimo pertence a um usuário
