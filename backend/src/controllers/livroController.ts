@@ -1,4 +1,5 @@
-import  { Request, Response } from 'express';
+import { Request, Response } from 'express';
+import { Op } from 'sequelize';
 import db from '../models/index';
 const Livro = db.Livro;
 
@@ -101,9 +102,9 @@ export const buscarLivrosPorTituloOuAutor = async (req: Request, res: Response) 
         }
         const livros = await Livro.findAll({
             where: {
-                [db.Sequelize.Op.or]: [
-                    { titulo: { [db.Sequelize.Op.like]: `%${query}%` } },
-                    { autor: { [db.Sequelize.Op.like]: `%${query}%` } }
+                [Op.or]: [
+                    { titulo: { [Op.like]: `%${query}%` } },
+                    { autor: { [Op.like]: `%${query}%` } }
                 ]
             }
         });
@@ -130,7 +131,7 @@ export const buscarLivrosPorCategoria = async (req: Request, res: Response) => {
             return res.status(400).send({ message: 'Parâmetro de categoria inválido' });
         }
         const livros = await Livro.findAll({
-            where: { categoria: { [db.Sequelize.Op.iLike]: `%${categoria}%` } }
+            where: { categoria: { [Op.like]: `%${categoria}%` } }
         });
         if (livros.length === 0) {
             return res.status(404).send({ message: 'Nenhum livro encontrado para a categoria fornecida' });
