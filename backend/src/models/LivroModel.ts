@@ -19,7 +19,7 @@ const livroModel = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
             allowNull: true
         },
         categoria: {
-            type: DataTypes.STRING,
+            type: dataTypes.STRING,
             allowNull: true
         },
         quantidadeTotal: {

@@ -12,7 +12,7 @@ const emprestimoModel = (sequelize: Sequelize, dataTypes: typeof DataTypes) => {
     },
     dataEmprestimo: {
       type: dataTypes.DATE,
-      defaultValue: DataTypes.NOW
+      defaultValue: dataTypes.NOW
     },
     dataPrevistaDevolucao: {
       type: dataTypes.DATE,
