@@ -51,13 +51,11 @@ export const listarLivros = async (req: Request, res: Response) => {
 
 
 export const buscarLivroPorId = async (req: Request, res: Response) => {
-  const livro = await Livro.findByPk(req.params.id);
-
   try {
+    const livro = await Livro.findByPk(req.params.id);
     
     if (!livro) {
       return res.status(404).send({ message: 'Livro não encontrado' });
-
     }
 
     res.status(200).send(livro);
@@ -68,9 +66,8 @@ export const buscarLivroPorId = async (req: Request, res: Response) => {
 };
 
 export const atualizarLivro = async (req: Request, res: Response) => {
-  const livro = await Livro.findByPk(req.params.id);
   try {
-    
+    const livro = await Livro.findByPk(req.params.id);
 
     if (!livro) {
       return res.status(404).send({ message: 'Livro não encontrado' });
@@ -92,9 +89,8 @@ export const atualizarLivro = async (req: Request, res: Response) => {
 };
 
 export const deletarLivro = async (req: Request, res: Response) => {
-  const livro = await Livro.findByPk(req.params.id);
   try {
-    
+    const livro = await Livro.findByPk(req.params.id);
 
     if (!livro) {
       return res.status(404).send({ message: 'Livro não encontrado' });

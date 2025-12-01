@@ -188,13 +188,55 @@ Resposta:
   "id": 1,
   "titulo": "Clean Code",
   "autor": "Robert Martin",
+  "editora": "Prentice Hall",
+  "anoPublicacao": 2008,
+  "categoria": "Programação",
   "quantidadeTotal": 5,
-  "quantidadeDisponivel": 3
+  "quantidadeDisponivel": 3,
+  "localizacao": "Estante A - Prateleira 3",
+  "createdAt": "2024-11-30T10:00:00.000Z",
+  "updatedAt": "2024-11-30T10:00:00.000Z"
+}
+Atualizar Livro (Admin/Bibliotecario)
+PUT /livros/:id
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "titulo": "Clean Code - 2ª Edição",
+  "autor": "Robert C. Martin",
+  "editora": "Prentice Hall",
+  "anoPublicacao": 2009,
+  "categoria": "Programação",
+  "localizacao": "Estante A - Prateleira 3"
+}
+Resposta:
+
+{
+  "id": 1,
+  "titulo": "Clean Code - 2ª Edição",
+  "autor": "Robert C. Martin",
+  "editora": "Prentice Hall",
+  "anoPublicacao": 2009,
+  "categoria": "Programação",
+  "quantidadeTotal": 5,
+  "quantidadeDisponivel": 3,
+  "localizacao": "Estante A - Prateleira 3",
+  "createdAt": "2024-11-30T10:00:00.000Z",
+  "updatedAt": "2024-12-01T15:00:00.000Z"
+}
+Deletar Livro (Admin/Bibliotecario)
+DELETE /livros/:id
+Authorization: Bearer <token>
+Resposta:
+
+{
+  "message": "Livro deletado com sucesso"
 }
 Buscar por Título ou Autor
-GET /livros/buscar/:query
+GET /livros/busca/:query
 Authorization: Bearer <token>
-Exemplo: GET /livros/buscar/clean
+Exemplo: GET /livros/busca/clean
 
 Resposta:
 
@@ -203,13 +245,23 @@ Resposta:
     "id": 1,
     "titulo": "Clean Code",
     "autor": "Robert Martin",
-    "quantidadeDisponivel": 3
+    "editora": "Prentice Hall",
+    "anoPublicacao": 2008,
+    "categoria": "Programação",
+    "quantidadeTotal": 5,
+    "quantidadeDisponivel": 3,
+    "localizacao": "Estante A - Prateleira 3"
   },
   {
     "id": 2,
     "titulo": "Clean Architecture",
     "autor": "Robert Martin",
-    "quantidadeDisponivel": 2
+    "editora": "Prentice Hall",
+    "anoPublicacao": 2017,
+    "categoria": "Programação",
+    "quantidadeTotal": 4,
+    "quantidadeDisponivel": 2,
+    "localizacao": "Estante A - Prateleira 4"
   }
 ]
 Buscar por Categoria
@@ -224,19 +276,40 @@ Resposta:
     "id": 1,
     "titulo": "Clean Code",
     "autor": "Robert Martin",
-    "categoria": "Programação"
+    "editora": "Prentice Hall",
+    "anoPublicacao": 2008,
+    "categoria": "Programação",
+    "quantidadeTotal": 5,
+    "quantidadeDisponivel": 3,
+    "localizacao": "Estante A - Prateleira 3"
   }
 ]
-Verificar Disponibilidade
-GET /livros/disponibilidade/:id
+Verificar Livros Disponíveis
+GET /livros/disponiveis/verificar-disponibilidade
 Authorization: Bearer <token>
+Query params opcionais: ?categoria=programacao&autor=Robert&titulo=Clean
+
 Resposta:
 
 {
-  "id": 1,
-  "titulo": "Clean Code",
-  "quantidadeTotal": 5,
-  "quantidadeDisponivel": 3
+  "total": 2,
+  "livros": [
+    {
+      "id": 1,
+      "titulo": "Clean Code",
+      "autor": "Robert Martin",
+      "quantidadeDisponivel": 3,
+      "categoria": "Programação"
+    },
+    {
+      "id": 2,
+      "titulo": "Clean Architecture",
+      "autor": "Robert Martin",
+      "quantidadeDisponivel": 2,
+      "categoria": "Programação"
+    }
+  ],
+  "message": "Livros disponíveis recuperados com sucesso"
 }
  Empréstimos
 Criar Empréstimo (Admin/Bibliotecario)
@@ -293,6 +366,55 @@ Resposta:
     }
   }
 ]
+Buscar Empréstimo por ID (Admin/Bibliotecario)
+GET /emprestimos/:id
+Authorization: Bearer <token>
+Resposta:
+
+{
+  "id": 1,
+  "usuarioId": 1,
+  "livroId": 1,
+  "dataEmprestimo": "2024-11-30T10:00:00.000Z",
+  "dataPrevistaDevolucao": "2024-12-15T00:00:00.000Z",
+  "dataDevolucao": null,
+  "status": "ativo",
+  "diasAtraso": 0,
+  "usuario": {
+    "id": 1,
+    "nome": "João Silva",
+    "email": "joao@email.com",
+    "tipo": "aluno",
+    "matricula": "2024001"
+  },
+  "livro": {
+    "id": 1,
+    "titulo": "Clean Code",
+    "autor": "Robert Martin"
+  }
+}
+Listar Empréstimos por Usuário (Admin/Bibliotecario)
+GET /emprestimos/usuario/:usuarioId
+Authorization: Bearer <token>
+Resposta:
+
+[
+  {
+    "id": 1,
+    "usuarioId": 1,
+    "livroId": 1,
+    "dataEmprestimo": "2024-11-30T10:00:00.000Z",
+    "dataPrevistaDevolucao": "2024-12-15T00:00:00.000Z",
+    "dataDevolucao": null,
+    "status": "ativo",
+    "diasAtraso": 0,
+    "livro": {
+      "id": 1,
+      "titulo": "Clean Code",
+      "autor": "Robert Martin"
+    }
+  }
+]
 Meus Empréstimos (Aluno)
 GET /emprestimos/me/emprestimos
 Authorization: Bearer <token>
@@ -301,9 +423,13 @@ Resposta:
 [
   {
     "id": 1,
+    "usuarioId": 1,
+    "livroId": 1,
     "dataEmprestimo": "2024-11-30T10:00:00.000Z",
     "dataPrevistaDevolucao": "2024-12-15T00:00:00.000Z",
+    "dataDevolucao": null,
     "status": "ativo",
+    "diasAtraso": 0,
     "livro": {
       "id": 1,
       "titulo": "Clean Code",
@@ -336,6 +462,33 @@ Resposta (atrasado):
   "multaAplicada": true,
   "valorMulta": 6.00
 }
+Listar Devoluções (Admin/Bibliotecario)
+GET /devolucoes
+Authorization: Bearer <token>
+Resposta:
+
+[
+  {
+    "id": 1,
+    "usuarioId": 1,
+    "livroId": 1,
+    "dataEmprestimo": "2024-11-20T10:00:00.000Z",
+    "dataPrevistaDevolucao": "2024-11-27T10:00:00.000Z",
+    "dataDevolucao": "2024-11-30T14:30:00.000Z",
+    "status": "devolvido",
+    "diasAtraso": 0,
+    "usuario": {
+      "id": 1,
+      "nome": "João Silva",
+      "email": "joao@email.com"
+    },
+    "livro": {
+      "id": 1,
+      "titulo": "Clean Code",
+      "autor": "Robert Martin"
+    }
+  }
+]
  Multas
 Listar Multas
 GET /multas
@@ -353,6 +506,50 @@ Resposta:
     "createdAt": "2024-11-30T10:00:00.000Z"
   }
 ]
+Listar Multas com Relacionamentos
+GET /multas/com-relacionamentos
+Authorization: Bearer <token>
+Resposta:
+
+[
+  {
+    "id": 1,
+    "emprestimoId": 1,
+    "usuarioId": 1,
+    "valorMulta": 6.00,
+    "status": "pendente",
+    "dataPagamento": null,
+    "emprestimo": {
+      "id": 1,
+      "dataEmprestimo": "2024-11-20T10:00:00.000Z",
+      "dataPrevistaDevolucao": "2024-11-27T10:00:00.000Z",
+      "livro": {
+        "id": 1,
+        "titulo": "Clean Code",
+        "autor": "Robert Martin"
+      }
+    },
+    "usuario": {
+      "id": 1,
+      "nome": "João Silva",
+      "email": "joao@email.com"
+    }
+  }
+]
+Buscar Multa por ID
+GET /multas/:id
+Authorization: Bearer <token>
+Resposta:
+
+{
+  "id": 1,
+  "emprestimoId": 1,
+  "usuarioId": 1,
+  "valorMulta": 6.00,
+  "status": "pendente",
+  "dataPagamento": null,
+  "createdAt": "2024-11-30T10:00:00.000Z"
+}
 Buscar Multa por ID (com relacionamentos)
 GET /multas/com-relacionamentos/:id
 Authorization: Bearer <token>
@@ -390,25 +587,123 @@ Resposta:
   "message": "Multa paga com sucesso",
   "multa": {
     "id": 1,
+    "emprestimoId": 1,
+    "usuarioId": 1,
+    "valorMulta": 6.00,
     "status": "paga",
-    "dataPagamento": "2024-11-30T14:30:00.000Z",
-    "valorMulta": 6.00
+    "dataPagamento": "2024-11-30T14:30:00.000Z"
   }
 }
-Pagar Múltiplas Multas
-POST /multas/pagar-varias
+Atualizar Status da Multa (Admin/Bibliotecario)
+PATCH /multas/:id/status
 Authorization: Bearer <token>
 Content-Type: application/json
 
 {
-  "multasIds": [1, 2, 3]
+  "status": "paga"
 }
 Resposta:
 
 {
-  "message": "Multas pagas com sucesso",
-  "quantidadePaga": 3,
-  "dataPagamento": "2024-11-30T14:30:00.000Z"
+  "id": 1,
+  "emprestimoId": 1,
+  "usuarioId": 1,
+  "valorMulta": 6.00,
+  "status": "paga",
+  "dataPagamento": "2024-12-01T10:00:00.000Z",
+  "createdAt": "2024-11-30T10:00:00.000Z",
+  "updatedAt": "2024-12-01T10:00:00.000Z"
+}
+Buscar Multas por Status (Admin/Bibliotecario)
+GET /multas/status/:status
+Authorization: Bearer <token>
+Exemplo: GET /multas/status/pendente
+
+Resposta:
+
+[
+  {
+    "id": 1,
+    "emprestimoId": 1,
+    "usuarioId": 1,
+    "valorMulta": 6.00,
+    "status": "pendente",
+    "dataPagamento": null,
+    "emprestimo": {
+      "id": 1,
+      "dataEmprestimo": "2024-11-20T10:00:00.000Z",
+      "dataPrevistaDevolucao": "2024-11-27T10:00:00.000Z",
+      "livro": {
+        "id": 1,
+        "titulo": "Clean Code",
+        "autor": "Robert Martin"
+      }
+    },
+    "usuario": {
+      "id": 1,
+      "nome": "João Silva",
+      "email": "joao@email.com"
+    }
+  }
+]
+Buscar Multas por Usuário (Admin/Bibliotecario)
+GET /multas/usuario/:id
+Authorization: Bearer <token>
+Resposta:
+
+[
+  {
+    "id": 1,
+    "emprestimoId": 1,
+    "usuarioId": 1,
+    "valorMulta": 6.00,
+    "status": "pendente",
+    "dataPagamento": null,
+    "createdAt": "2024-11-30T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "emprestimoId": 5,
+    "usuarioId": 1,
+    "valorMulta": 4.00,
+    "status": "paga",
+    "dataPagamento": "2024-11-28T14:00:00.000Z",
+    "createdAt": "2024-11-25T10:00:00.000Z"
+  }
+]
+Buscar Multas Pendentes por Usuário (Admin/Bibliotecario)
+GET /multas/usuario/:id/pendentes
+Authorization: Bearer <token>
+Resposta:
+
+[
+  {
+    "id": 1,
+    "emprestimoId": 1,
+    "usuarioId": 1,
+    "valorMulta": 6.00,
+    "status": "pendente",
+    "dataPagamento": null,
+    "createdAt": "2024-11-30T10:00:00.000Z"
+  }
+]
+Calcular Total de Multas Pendentes por Usuário (Admin/Bibliotecario)
+GET /multas/usuario/:id/total-pendentes
+Authorization: Bearer <token>
+Resposta:
+
+{
+  "usuarioId": "1",
+  "totalMultasPendentes": "10.00",
+  "quantidadeMultas": 2
+}
+Deletar Multa (Admin/Bibliotecario)
+DELETE /multas/:id
+Authorization: Bearer <token>
+Resposta:
+
+{
+  "message": "Multa com id 1 deletada com sucesso"
 }
 Relatórios
 Dashboard
@@ -465,3 +760,28 @@ Resposta:
     }
   ]
 }
+Livros Mais Emprestados
+GET /relatorios/livros-mais-emprestados
+Authorization: Bearer <token>
+Resposta:
+
+[
+  {
+    "livroId": 1,
+    "totalEmprestimos": 45,
+    "Livro": {
+      "id": 1,
+      "titulo": "Clean Code",
+      "autor": "Robert Martin"
+    }
+  },
+  {
+    "livroId": 3,
+    "totalEmprestimos": 38,
+    "Livro": {
+      "id": 3,
+      "titulo": "Design Patterns",
+      "autor": "Gang of Four"
+    }
+  }
+]

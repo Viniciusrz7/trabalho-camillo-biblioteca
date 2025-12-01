@@ -24,11 +24,8 @@ export const registrarDevolucao = async (req: Request, res: Response) => {
       return res.status(404).send({ message: 'Empréstimo não encontrado' });
     }
 
-    if (emprestimo.status === 'devolvido') {
-      return res.status(400).send({ message: 'Livro já foi devolvido' });
-    }
-    if (emprestimo.status === 'atrasado') {
-      return res.status(400).send({ message: 'Livro já foi devolvido com atraso' });
+    if (emprestimo.status === 'devolvido' || emprestimo.status === 'atrasado') {
+      return res.status(400).send({ message: 'Este empréstimo já foi devolvido' });
     }
 
     const dataAtual = new Date();
