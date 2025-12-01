@@ -8,8 +8,9 @@ const Usuario = db.Usuario;
 const Livro = db.Livro;
 
 export const buscarMultaPorIdComRelacionamentos = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const data = await Multa.findByPk(req.params.id, {
+    const data = await Multa.findByPk(id, {
       include: [
         {
           model: Emprestimo, 
@@ -34,11 +35,12 @@ export const buscarMultaPorIdComRelacionamentos = async (req: Request, res: Resp
 };
 
 export const buscarMultaPorId = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const data = await Multa.findByPk(req.params.id) as IMulta | null;
+    const data = await Multa.findByPk(id) as IMulta | null;
 
     if (!data) {
-      return res.status(404).send({ message: `Multa com id ${req.params.id} não encontrada` });
+      return res.status(404).send({ message: `Multa com id ${id} não encontrada` });
     }
 
     res.status(200).send(data);
@@ -49,6 +51,7 @@ export const buscarMultaPorId = async (req: Request, res: Response) => {
 };
 
 export const listarMultasComRelacionamentos = async (req: Request, res: Response) => {
+
   try {
     const data = await Multa.findAll({
       include: [
@@ -81,14 +84,16 @@ export const listarMultas = async (req: Request, res: Response) => {
 };
 
 export const atualizarStatusMulta = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { status } = req.body;
   try {
-    const multa = await Multa.findByPk(req.params.id) as IMulta | null;
+    const multa = await Multa.findByPk(id) as IMulta | null;
 
     if (!multa) {
-      return res.status(404).send({ message: `Multa com id ${req.params.id} não encontrada` });
+      return res.status(404).send({ message: `Multa com id ${id} não encontrada` });
     }
 
-    const { status } = req.body;
+    
 
     if (!status) {
       return res.status(400).send({ message: 'Status é obrigatório' });
@@ -114,15 +119,16 @@ export const atualizarStatusMulta = async (req: Request, res: Response) => {
 };
 
 export const deletarMulta = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const multa = await Multa.findByPk(req.params.id); 
+    const multa = await Multa.findByPk(id); 
 
     if (!multa) {
-      return res.status(404).send({ message: `Multa com id ${req.params.id} não encontrada` });
+      return res.status(404).send({ message: `Multa com id ${id} não encontrada` });
     }
 
     await multa.destroy();
-    res.status(200).send({ message: `Multa com id ${req.params.id} deletada com sucesso` });
+    res.status(200).send({ message: `Multa com id ${id} deletada com sucesso` });
   } catch (error) {
     console.error('Erro ao deletar multa:', error);
     res.status(500).send({ message: 'Erro ao deletar multa' });
@@ -130,11 +136,10 @@ export const deletarMulta = async (req: Request, res: Response) => {
 };
 
 export const buscarMultasPorUsuario = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const usuarioId = req.params.usuarioId;
-
     const data = await Multa.findAll({
-      where: { usuarioId: usuarioId }
+      where: { usuarioId: id }
     });
 
     res.status(200).send(data);  
@@ -145,12 +150,11 @@ export const buscarMultasPorUsuario = async (req: Request, res: Response) => {
 };
 
 export const buscarMultasPendentesPorUsuario = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const usuarioId = req.params.usuarioId;
-
     const data = await Multa.findAll({
       where: { 
-        usuarioId: usuarioId, 
+        usuarioId: id, 
         status: 'pendente' 
       }
     });
@@ -162,9 +166,9 @@ export const buscarMultasPendentesPorUsuario = async (req: Request, res: Respons
   }
 };
 export const buscarMultasPorStatus = async (req: Request, res: Response) => {
-    
+  const { status } = req.params;
   try {
-        const {status} = req.params;
+       
         if(!['pendente', 'paga', 'cancelada'].includes(status)){
             return  res.status(400).send({ message: 'Status inválido. Use "pendente", "paga" ou "cancelada".' });
         }
@@ -188,8 +192,9 @@ export const buscarMultasPorStatus = async (req: Request, res: Response) => {
   }
 };
 export const calcularTotalMultasPendentes = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const usuarioId = req.params.usuarioId;
+    const usuarioId = id;
 
     const multas = await Multa.findAll({
       where: { 
@@ -212,10 +217,11 @@ export const calcularTotalMultasPendentes = async (req: Request, res: Response) 
 };
 
 export const pagarMulta = async (req: Request, res: Response) => {
+  const { id } = req.params;
   try {
-    const multa = await Multa.findByPk(req.params.id) as IMulta | null;
+    const multa = await Multa.findByPk(id) as IMulta | null;
     if (!multa) {
-      return res.status(404).send({ message: `Multa com id ${req.params.id} não encontrada` });
+      return res.status(404).send({ message: `Multa com id ${id} não encontrada` });
     }
     if (multa.status === 'paga') {
       return res.status(400).send({ message: 'Multa já está paga' });
@@ -234,38 +240,6 @@ export const pagarMulta = async (req: Request, res: Response) => {
   }
 };
 
-export const pagarMultiplasMultas = async (req: Request, res: Response) => {
-  try {
-    const { multasIds } = req.body;
 
-    if (!multasIds || !Array.isArray(multasIds) || multasIds.length === 0) {
-      return res.status(400).send({ message: 'Array de IDs de multas é obrigatório' });
-    }
-
-    const dataPagamento = new Date();
-
-    await Multa.update(
-      { 
-        status: 'paga', 
-        dataPagamento: dataPagamento 
-      },
-      { 
-        where: { 
-          id: multasIds,
-          status: 'pendente'
-        } 
-      }
-    );
-
-    res.status(200).send({ 
-      message: 'Multas pagas com sucesso',
-      quantidadePaga: multasIds.length,
-      dataPagamento
-    });
-  } catch (error) {
-    console.error('Erro ao pagar múltiplas multas:', error);
-    res.status(500).send({ message: 'Erro ao pagar múltiplas multas' });
-  }
-};
 
 

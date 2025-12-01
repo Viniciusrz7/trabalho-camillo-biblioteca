@@ -9,9 +9,9 @@ const Multa = db.Multa;
 const Usuario = db.Usuario;
 
 export const registrarDevolucao = async (req: Request, res: Response) => {
-
+  const { emprestimoId } = req.body;
   try {
-    const { emprestimoId } = req.body;
+    
 
     if (!emprestimoId) {
       return res.status(400).send({ message: 'O ID do empréstimo é obrigatório' });

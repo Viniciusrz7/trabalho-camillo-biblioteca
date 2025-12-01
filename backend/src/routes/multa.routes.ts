@@ -14,8 +14,7 @@ router.get('/:id', verifyAdminOrBibliotecario, multaController.buscarMultaPorId)
 
 // Operações
 router.post('/pagar/:id', verifyAdminOrBibliotecario, multaController.pagarMulta);
-router.post('/pagar-varias', verifyAdminOrBibliotecario, multaController.pagarMultiplasMultas);
-router.delete('/:id', verifyAdmin, multaController.deletarMulta);
+router.delete('/:id', verifyAdminOrBibliotecario, multaController.deletarMulta);
 
 export default (app: express.Application) => {
   app.use('/multas', router);

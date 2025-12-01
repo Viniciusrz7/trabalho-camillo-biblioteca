@@ -5,8 +5,9 @@ const Livro = db.Livro;
 import { Op } from 'sequelize';
 
 export const cadastrarLivro = async (req: Request, res: Response) => {
+   const { titulo, autor, quantidadeTotal, localizacao, categoria, editora, anoPublicacao } = req.body;
   try {
-    const { titulo, autor, quantidadeTotal, localizacao, categoria, editora, anoPublicacao } = req.body;
+   
 
     if (!titulo || !autor || quantidadeTotal === undefined) {
       return res.status(400).send({ message: 'Título, autor e quantidade Total são obrigatórios' });
@@ -50,9 +51,10 @@ export const listarLivros = async (req: Request, res: Response) => {
 
 
 export const buscarLivroPorId = async (req: Request, res: Response) => {
-  try {
-    const livro = await Livro.findByPk(req.params.id);
+  const livro = await Livro.findByPk(req.params.id);
 
+  try {
+    
     if (!livro) {
       return res.status(404).send({ message: 'Livro não encontrado' });
 
@@ -66,8 +68,9 @@ export const buscarLivroPorId = async (req: Request, res: Response) => {
 };
 
 export const atualizarLivro = async (req: Request, res: Response) => {
+  const livro = await Livro.findByPk(req.params.id);
   try {
-    const livro = await Livro.findByPk(req.params.id);
+    
 
     if (!livro) {
       return res.status(404).send({ message: 'Livro não encontrado' });
@@ -89,8 +92,9 @@ export const atualizarLivro = async (req: Request, res: Response) => {
 };
 
 export const deletarLivro = async (req: Request, res: Response) => {
+  const livro = await Livro.findByPk(req.params.id);
   try {
-    const livro = await Livro.findByPk(req.params.id);
+    
 
     if (!livro) {
       return res.status(404).send({ message: 'Livro não encontrado' });
@@ -105,8 +109,9 @@ export const deletarLivro = async (req: Request, res: Response) => {
 };
 
 export const buscarLivrosPorTituloOuAutor = async (req: Request, res: Response) => {
+  const { query } = req.params;
   try {
-    const { query } = req.params;
+    
 
     if (!query || !query.trim()) {
       return res.status(400).send({ message: 'Parâmetro de busca é obrigatório' });
@@ -129,10 +134,9 @@ export const buscarLivrosPorTituloOuAutor = async (req: Request, res: Response) 
 };
 
 export const buscarLivrosPorCategoria = async (req: Request, res: Response) => {
-
+  const { categoria } = req.params;
   try {
-    const { categoria } = req.params;
-
+    
     if (!categoria || !categoria.trim()) {
       return res.status(400).send({ message: 'Parâmetro de categoria é obrigatório' });
 
@@ -149,8 +153,10 @@ export const buscarLivrosPorCategoria = async (req: Request, res: Response) => {
   }
 };
 export const verificarDisponibilidadeLivro = async (req: Request, res: Response) => {
+
+  const { id } = req.params;
   try {
-    const livro = await Livro.findByPk(req.params.id, {
+    const livro = await Livro.findByPk(id, {
       attributes: ['id', 'titulo', 'quantidadeTotal', 'quantidadeDisponivel']
     }) as ILivro | null;
 
@@ -166,8 +172,9 @@ export const verificarDisponibilidadeLivro = async (req: Request, res: Response)
   }
 };
 export const verificarLivrosDisponiveis = async (req: Request, res: Response) => {
+  const { categoria, autor, titulo } = req.query;
   try {
-    const { categoria, autor, titulo } = req.query;
+    
     
     const whereClause: any = {
       quantidadeDisponivel: { [Op.gt]: 0 }
