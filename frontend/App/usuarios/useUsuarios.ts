@@ -95,7 +95,7 @@ export const useUsuarios = () => {
     };
 
     return {
-        usuarios, showForm, setShowForm, formData, setFormData, handleSubmit, handleEditar,
-        handleExcluir, handleCancelar: resetarForm, editandoId
+        state: { usuarios, showForm, formData, editandoId },
+        actions: { setShowForm, setFormData, handleSubmit, handleEditar, handleExcluir, handleCancelar: resetarForm }
     };
 };

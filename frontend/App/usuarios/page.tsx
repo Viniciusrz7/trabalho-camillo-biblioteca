@@ -7,7 +7,9 @@ import { useUsuarios } from './useUsuarios';
 export default function UsuariosPage() {
   const { user } = useAuth();
   const router = useRouter();
-  const { usuarios, showForm, setShowForm, formData, setFormData, handleSubmit, handleEditar, handleExcluir, handleCancelar, editandoId } = useUsuarios();
+  const { state, actions } = useUsuarios();
+  const { usuarios, showForm, formData, editandoId } = state;
+  const { setShowForm, setFormData, handleSubmit, handleEditar, handleExcluir, handleCancelar } = actions;
   const [showPassword, setShowPassword] = useState(false);
   const [showMatricula, setShowMatricula] = useState(false);
 
