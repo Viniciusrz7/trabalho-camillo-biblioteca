@@ -1,13 +1,13 @@
 'use client';
-
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { getToken, removeToken } from '@/Services/api';
+import { IUsuario } from '@/types';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  user: any | null;
-  login: (token: string, userData: any) => void;
+  user: IUsuario | null;
+  login: (token: string, userData: IUsuario) => void;
   logout: () => void;
 }
 
@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<any | null>(null);
+  const [user, setUser] = useState<IUsuario | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const userData = JSON.parse(payload.user);
+      const userData: IUsuario = JSON.parse(payload.user);
       setUser(userData);
       setIsAuthenticated(true);
     } catch {
@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = (token: string, userData: any) => {
+  const login = (token: string, userData: IUsuario) => {
     setUser(userData);
     setIsAuthenticated(true);
   };
