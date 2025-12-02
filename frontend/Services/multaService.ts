@@ -14,7 +14,7 @@ export const listarMultasPorUsuario = async (usuarioId: number): Promise<IMulta[
 
 // Minhas multas (aluno)
 export const minhasMultas = async (): Promise<IMulta[]> => {
-  return request(`${API_URL}/multas/me/multas`);
+  return request(`${API_URL}/multas/minhas-multas`);
 };
 
 // Pagar multa

@@ -1,10 +1,11 @@
 import express from 'express';
 import * as multaController from '../controllers/multaController';
-import { verifyAdminOrBibliotecario, verifyAdmin } from '../middlewares/auth';
+import { verifyAdminOrBibliotecario, tokenValidated } from '../middlewares/auth';
 
 const router = express.Router();
 
 //  Rotas específicas PRIMEIRO
+router.get('/minhas-multas', tokenValidated, multaController.minhasMultas);
 router.get('/com-relacionamentos', verifyAdminOrBibliotecario, multaController.listarMultasComRelacionamentos);
 router.get('/com-relacionamentos/:id', verifyAdminOrBibliotecario, multaController.buscarMultaPorIdComRelacionamentos);
 router.get('/status/:status', verifyAdminOrBibliotecario, multaController.buscarMultasPorStatus);

@@ -240,6 +240,31 @@ export const pagarMulta = async (req: Request, res: Response) => {
   }
 };
 
+// multas do aluno que ta logado
+export const minhasMultas = async (req: Request, res: Response) => {
+  try {
+    const usuarioId = (req as any).userId;
+    
+    const data = await Multa.findAll({
+      where: { usuarioId },
+      include: [
+        {
+          model: Emprestimo,
+          attributes: ['id', 'dataEmprestimo', 'dataPrevistaDevolucao'],
+          include: [
+            { model: Livro, attributes: ['id', 'titulo', 'autor'] }
+          ]
+        }
+      ]
+    });
+
+    res.status(200).send(data);
+  } catch (error) {
+    console.error('Erro ao buscar minhas multas:', error);
+    res.status(500).send({ message: 'Erro ao buscar minhas multas' });
+  }
+};
+
 
 
 
