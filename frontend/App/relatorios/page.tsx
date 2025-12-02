@@ -1,5 +1,6 @@
 'use client';
 import { useRelatorios } from './state&actions/useRelatorios';
+import Navbar from '@/app/components/Menu/Navbar';
 
 export default function RelatoriosPage() {
   const { state, actions } = useRelatorios();
@@ -7,7 +8,9 @@ export default function RelatoriosPage() {
   const emprestimosExibidos = state.tipoRelatorio === 'ativos' ? state.ativos : state.atrasados;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold">Relatórios</h1>

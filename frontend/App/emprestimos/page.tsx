@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEmprestimos } from './state&actions/useEmprestimos';
+import Navbar from '@/app/components/Menu/Navbar';
 
 export default function EmprestimosPage() {
   const { user } = useAuth();
@@ -18,7 +19,9 @@ export default function EmprestimosPage() {
   if (!podeAcessar) return null;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold">Empréstimos</h1>

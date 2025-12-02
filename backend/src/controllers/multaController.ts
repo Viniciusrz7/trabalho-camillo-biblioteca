@@ -243,10 +243,10 @@ export const pagarMulta = async (req: Request, res: Response) => {
 // multas do aluno que ta logado
 export const minhasMultas = async (req: Request, res: Response) => {
   try {
-    const usuarioId = (req as any).userId;
+    const userFromToken = JSON.parse(req.headers['user'] as string);
     
     const data = await Multa.findAll({
-      where: { usuarioId },
+      where: { usuarioId: userFromToken.id },
       include: [
         {
           model: Emprestimo,

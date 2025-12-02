@@ -4,6 +4,7 @@ import { useAuth } from '@/app/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useUsuarios } from './state&actions/useUsuarios';
 import { CampoSenha } from '@/app/components/Senha/CampoSenha';
+import Navbar from '@/app/components/Menu/Navbar';
 
 export default function UsuariosPage() {
   const { user } = useAuth();
@@ -21,7 +22,9 @@ export default function UsuariosPage() {
   if (!podeAcessar) return null;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      <div className="p-8">
       <div className="max-w-7xl mx-auto">
         
         <div className="flex justify-between items-center mb-8">
@@ -120,6 +123,7 @@ export default function UsuariosPage() {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     </div>
   );

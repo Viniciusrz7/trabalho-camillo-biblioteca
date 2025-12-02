@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useLivros } from './state&actions/useLivros';
+import Navbar from '@/app/components/Menu/Navbar';
 
 export default function LivrosPage() {
   const { user } = useAuth();
@@ -18,7 +19,9 @@ export default function LivrosPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      <div className="p-8">
       <div className="max-w-7xl mx-auto">
         
         <div className="flex justify-between items-center mb-8">

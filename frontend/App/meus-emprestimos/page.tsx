@@ -1,11 +1,14 @@
 'use client';
 import { useMeusEmprestimos } from './state&actions/useMeusEmprestimos';
+import Navbar from '@/app/components/Menu/Navbar';
 
 export default function MeusEmprestimosPage() {
   const { state, actions } = useMeusEmprestimos();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold mb-8">Meus Empréstimos</h1>
 

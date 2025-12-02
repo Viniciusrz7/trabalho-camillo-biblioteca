@@ -1,5 +1,6 @@
 'use client';
 import { useAuth } from '@/app/contexts/AuthContext';
+import Navbar from '@/app/components/Menu/Navbar';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -7,7 +8,9 @@ export default function Dashboard() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold mb-8">
           Bem-vindo, {user.nome}!
@@ -31,6 +34,7 @@ export default function Dashboard() {
             <p className="text-gray-400">Biblioteca Online</p>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

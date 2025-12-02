@@ -1,12 +1,15 @@
 'use client';
 import { useMultas } from './state&actions/useMultas';
+import Navbar from '@/app/components/Menu/Navbar';
 
 export default function MultasPage() {
   const { state, actions } = useMultas();
   const podeGerenciar = state.user?.tipo === 'admin' || state.user?.tipo === 'bibliotecario';
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-8">
+    <div className="min-h-screen bg-gray-900 text-white">
+      <Navbar />
+      <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold mb-8">Multas</h1>
 
@@ -85,6 +88,7 @@ export default function MultasPage() {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     </div>
   );
