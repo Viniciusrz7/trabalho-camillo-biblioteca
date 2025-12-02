@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useUsuarios } from './useUsuarios';
-import { CampoSenha } from '@/app/components/CampoSenha';
+import { CampoSenha } from '@/app/components/Senha/CampoSenha';
 
 export default function UsuariosPage() {
   const { user } = useAuth();
