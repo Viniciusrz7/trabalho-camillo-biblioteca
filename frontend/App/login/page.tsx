@@ -12,7 +12,12 @@ export default function LoginPage() {
   const router = useRouter();
   const { login: authLogin } = useAuth();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const decodificarToken = (token: string) => {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return JSON.parse(payload.user);
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (carregando) return;
 
@@ -21,26 +26,18 @@ export default function LoginPage() {
 
     try {
       const data = await login(email, senha);
-      
-      // Decodificar token para pegar dados do usuário
-      const payload = JSON.parse(atob(data.token.split('.')[1]));
-      const userData = JSON.parse(payload.user);
-      
+      const userData = decodificarToken(data.token);
+
       authLogin(data.token, userData);
       setMessage({ type: 'success', content: 'Login bem-sucedido!' });
-      
-      // Redirecionar baseado no tipo de usuário
-      if (userData.tipo === 'admin' || userData.tipo === 'bibliotecario') {
-        router.push('/dashboard');
-      } else {
-        router.push('/dashboard'); // ou outra rota para aluno
-      }
+      router.push('/dashboard');
     } catch (error: any) {
       setMessage({ type: 'error', content: error.message });
     } finally {
       setCarregando(false);
     }
   };
+
 
   const getMessageStyle = () => {
     switch (message.type) {
@@ -71,7 +68,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={onSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 E-mail
