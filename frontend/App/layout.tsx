@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { AuthProvider } from './contexts/AuthContext'
-import Navbar from '@/app/components/Navbar'
+import Navbar from '@/app/components/Menu/Navbar'
 
 export const metadata: Metadata = {
   title: 'Sistema de Biblioteca',
