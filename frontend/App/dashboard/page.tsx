@@ -20,7 +20,7 @@ export default function Dashboard() {
           Olá, {user.nome.split(' ')[0]}! 👋
         </h1>
         <p className="text-gray-400">
-          {isAdmin && 'Você tem acesso total ao sistema'}
+          {isAdmin && 'Controlador e Gerente do Sistema'}
           {isBibliotecario && 'Gerencie empréstimos e devoluções'}
           {isAluno && 'Consulte seus empréstimos e multas'}
         </p>
@@ -95,14 +95,35 @@ export default function Dashboard() {
         )}
       </div>
 
-      <div className="bg-blue-900/20 border border-blue-700 p-4 rounded-lg">
-        <h3 className="font-semibold mb-2">💡 Dica</h3>
-        <p className="text-gray-300 text-sm">
-          {isAluno && 'Devolva seus livros no prazo para evitar multas!'}
-          {isBibliotecario && 'Verifique os empréstimos atrasados na página de Relatórios.'}
-          {isAdmin && 'Use a página de Relatórios para acompanhar o sistema.'}
-        </p>
-      </div>
+      <footer className="mt-12 pt-8 border-t border-gray-700">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-100 mb-6">
+          <div>
+            <h4 className="font-semibold mb-3 text-indigo-400">📚 Biblioteca Online</h4>
+            <p className="text-gray-400 text-sm mb-2">
+              Sistema completo de gerenciamento de biblioteca
+            </p>
+            <p className="text-gray-500 text-xs">Versão 1.0.0</p>
+          </div>
+
+          <div>
+            <h4 className="font-semibold mb-3 text-indigo-400">ℹ️ Informações</h4>
+            <div className="space-y-2 text-sm text-gray-400">
+              <p>📅 {new Date().toLocaleDateString('pt-BR')}</p>
+              <p>⏰ {new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</p>
+              <p className="text-xs text-gray-500 mt-3">
+                Logado: <span className="text-indigo-400">{user.nome}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-6 border-t border-gray-800 text-center">
+          <p className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} Biblioteca Online 
+          </p>
+        </div>
+      </footer>
+
     </PageContainer>
   );
 }
