@@ -9,13 +9,13 @@ export default function LivrosPage() {
   const router = useRouter();
   const { state, actions } = useLivros();
 
-  const podeAcessar = user?.tipo === 'admin' || user?.tipo === 'bibliotecario';
+  const podeGerenciar = user?.tipo === 'admin' || user?.tipo === 'bibliotecario';
 
   useEffect(() => {
-    if (!podeAcessar) router.push('/dashboard');
-  }, [podeAcessar, router]);
+    if (!user) router.push('/login');
+  }, [user, router]);
 
-  if (!podeAcessar) return null;
+  if (!user) return null;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
@@ -23,15 +23,17 @@ export default function LivrosPage() {
         
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-bold">Livros</h1>
-          <button 
-            onClick={() => state.showForm ? actions.handleCancelar() : actions.setShowForm(true)} 
-            className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg"
-          >
-            {state.showForm ? 'Cancelar' : '+ Novo Livro'}
-          </button>
+          {podeGerenciar && (
+            <button 
+              onClick={() => state.showForm ? actions.handleCancelar() : actions.setShowForm(true)} 
+              className="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg"
+            >
+              {state.showForm ? 'Cancelar' : '+ Novo Livro'}
+            </button>
+          )}
         </div>
 
-        {state.showForm && (
+        {podeGerenciar && state.showForm && (
           <div className="bg-gray-800 p-6 rounded-lg mb-8">
             <h2 className="text-2xl font-bold mb-4">
               {state.editandoId ? 'Editar Livro' : 'Novo Livro'}
@@ -107,8 +109,8 @@ export default function LivrosPage() {
                 <th className="text-left py-3">Autor</th>
                 <th className="text-left py-3">Categoria</th>
                 <th className="text-left py-3">Disponível</th>
-                <th className="text-left py-3">Total</th>
-                <th className="text-left py-3">Ações</th>
+                {podeGerenciar && <th className="text-left py-3">Total</th>}
+                {podeGerenciar && <th className="text-left py-3">Ações</th>}
               </tr>
             </thead>
             <tbody>
@@ -122,17 +124,19 @@ export default function LivrosPage() {
                       {livro.quantidadeDisponivel}
                     </span>
                   </td>
-                  <td className="py-3">{livro.quantidadeTotal}</td>
-                  <td className="py-3">
-                    <div className="flex gap-2">
-                      <button onClick={() => actions.handleEditar(livro)} className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
-                        Editar
-                      </button>
-                      <button onClick={() => actions.handleExcluir(livro.id)} className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
-                        Excluir
-                      </button>
-                    </div>
-                  </td>
+                  {podeGerenciar && <td className="py-3">{livro.quantidadeTotal}</td>}
+                  {podeGerenciar && (
+                    <td className="py-3">
+                      <div className="flex gap-2">
+                        <button onClick={() => actions.handleEditar(livro)} className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
+                          Editar
+                        </button>
+                        <button onClick={() => actions.handleExcluir(livro.id)} className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm">
+                          Excluir
+                        </button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
