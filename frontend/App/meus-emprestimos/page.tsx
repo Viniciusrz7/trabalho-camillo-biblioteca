@@ -76,6 +76,7 @@ export default function MeusEmprestimosPage() {
           </table>
         </div>
       </div>
+      </div>
     </div>
   );
 }

@@ -60,6 +60,7 @@ export default function DevolucoesPage() {
           </table>
         </div>
       </div>
+      </div>
     </div>
   );
 }

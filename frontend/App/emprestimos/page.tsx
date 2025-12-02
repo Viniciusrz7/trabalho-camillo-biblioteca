@@ -103,6 +103,7 @@ export default function EmprestimosPage() {
           </table>
         </div>
       </div>
+      </div>
     </div>
   );
 }

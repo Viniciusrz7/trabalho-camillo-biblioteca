@@ -146,6 +146,7 @@ export default function LivrosPage() {
           </table>
         </div>
       </div>
+      </div>
     </div>
   );
 }

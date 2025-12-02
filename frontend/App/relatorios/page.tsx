@@ -84,6 +84,7 @@ export default function RelatoriosPage() {
           </table>
         </div>
       </div>
+      </div>
     </div>
   );
 }
