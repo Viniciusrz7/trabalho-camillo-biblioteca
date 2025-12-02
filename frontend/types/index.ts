@@ -28,6 +28,8 @@ export interface IEmprestimo {
   dataDevolucao?: Date;
   status: 'ativo' | 'devolvido' | 'atrasado';
   diasAtraso: number;
+  Usuario?: IUsuario;
+  Livro?: ILivro;
 }
 
 export interface IMulta {
@@ -37,4 +39,9 @@ export interface IMulta {
   valorMulta: number;
   status: 'pendente' | 'paga' | 'cancelada';
   dataPagamento?: Date;
+}
+
+export interface RelatorioResponse {
+  total: number;
+  emprestimos: IEmprestimo[];
 }

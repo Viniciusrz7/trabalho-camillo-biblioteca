@@ -1,13 +1,23 @@
 import { API_URL } from './api';
-import { IEmprestimo } from '@/app/types';
+import { RelatorioResponse } from '@/types';
 import { request } from './utils/utils';
 
-// Livros emprestados por aluno
-export const livrosEmprestadosPorAluno = async (usuarioId: number): Promise<IEmprestimo[]> => {
-  return request(`${API_URL}/relatorios/emprestimos/usuario/${usuarioId}`);
+// Empréstimos ativos
+export const emprestimosAtivos = async (): Promise<RelatorioResponse> => {
+  return request(`${API_URL}/relatorios/emprestimos-ativos`);
 };
 
-// Livros em atraso
-export const livrosEmAtraso = async (): Promise<IEmprestimo[]> => {
-  return request(`${API_URL}/relatorios/emprestimos/atrasados`);
+// Empréstimos atrasados
+export const emprestimosAtrasados = async (): Promise<RelatorioResponse> => {
+  return request(`${API_URL}/relatorios/emprestimos-atrasados`);
+};
+
+// Livros mais emprestados
+export const livrosMaisEmprestados = async () => {
+  return request(`${API_URL}/relatorios/livros-mais-emprestados`);
+};
+
+// Dashboard
+export const dashboard = async () => {
+  return request(`${API_URL}/relatorios/dashboard`);
 };
