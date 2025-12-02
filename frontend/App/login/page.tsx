@@ -1,72 +1,8 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { login } from '@/Services/authService';
-import { useAuth } from '@/app/contexts/AuthContext';
-import validator from '@/validator/validator';
+import { useLogin } from './state&actions/useLogin';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [message, setMessage] = useState({ type: '', content: '' });
-  const [carregando, setCarregando] = useState(false);
-  const router = useRouter();
-  const { login: authLogin } = useAuth();
-
-  const decodificarToken = (token: string) => {
-    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split('')
-        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
-    );
-    const payload = JSON.parse(jsonPayload);
-    return JSON.parse(payload.user);
-  };
-
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (carregando) return;
-
-    const validacao = validator.validarLogin({ email, senha });
-    if (!validacao.valido) {
-      setMessage({ type: 'error', content: validacao.mensagem || 'Erro de validação' });
-      return;
-    }
-
-    setCarregando(true);
-    setMessage({ type: 'loading', content: 'Carregando...' });
-
-    try {
-      const data = await login(email, senha);
-      const userData = decodificarToken(data.token);
-
-      authLogin(data.token, userData);
-      setMessage({ type: 'success', content: 'Login bem-sucedido!' });
-      router.push('/dashboard');
-    } catch (error) {
-      const mensagem = error instanceof Error ? error.message : 'Erro ao fazer login';
-      setMessage({ type: 'error', content: mensagem });
-    } finally {
-      setCarregando(false);
-    }
-  };
-
-
-  const getMessageStyle = () => {
-    switch (message.type) {
-      case 'success':
-        return 'text-green-400';
-      case 'error':
-        return 'text-red-400';
-      case 'loading':
-        return 'text-indigo-400 animate-pulse';
-      default:
-        return 'text-gray-400';
-    }
-  };
+  const { state, actions } = useLogin();
 
   return (
     <div className="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center p-4 sm:p-6 font-sans">
@@ -84,7 +20,7 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form onSubmit={onSubmit} className="space-y-6">
+          <form onSubmit={actions.onSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-1">
                 E-mail
@@ -93,9 +29,9 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={carregando}
+                value={state.email}
+                onChange={(e) => actions.setEmail(e.target.value)}
+                disabled={state.carregando}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 disabled:opacity-70"
                 placeholder="seu.email@exemplo.com"
               />
@@ -108,20 +44,20 @@ export default function LoginPage() {
               <div className="relative">
                 <input
                   id="senha"
-                  type={showPassword ? "text" : "password"}
+                  type={state.showPassword ? "text" : "password"}
                   required
-                  value={senha}
-                  onChange={(e) => setSenha(e.target.value)}
-                  disabled={carregando}
+                  value={state.senha}
+                  onChange={(e) => actions.setSenha(e.target.value)}
+                  disabled={state.carregando}
                   className="w-full px-4 py-2 pr-10 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 disabled:opacity-70"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
+                  onClick={() => actions.setShowPassword(!state.showPassword)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition"
                 >
-                  {showPassword ? (
+                  {state.showPassword ? (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
                     </svg>
@@ -135,16 +71,16 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <div className={`h-8 text-center text-sm font-medium pt-1 ${getMessageStyle()}`}>
-              {message.content}
+            <div className={`h-8 text-center text-sm font-medium pt-1 ${actions.getMessageStyle()}`}>
+              {state.message.content}
             </div>
 
             <button
               type="submit"
-              disabled={carregando}
+              disabled={state.carregando}
               className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 transition duration-150 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {carregando ? (
+              {state.carregando ? (
                 <span className="flex items-center">
                   <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

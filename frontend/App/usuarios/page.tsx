@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/app/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useUsuarios } from './useUsuarios';
+import { useUsuarios } from './state&actions/useUsuarios';
 import { CampoSenha } from '@/app/components/Senha/CampoSenha';
 
 export default function UsuariosPage() {
