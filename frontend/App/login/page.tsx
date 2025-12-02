@@ -46,8 +46,9 @@ export default function LoginPage() {
       authLogin(data.token, userData);
       setMessage({ type: 'success', content: 'Login bem-sucedido!' });
       router.push('/dashboard');
-    } catch (error: any) {
-      setMessage({ type: 'error', content: error.message });
+    } catch (error) {
+      const mensagem = error instanceof Error ? error.message : 'Erro ao fazer login';
+      setMessage({ type: 'error', content: mensagem });
     } finally {
       setCarregando(false);
     }
