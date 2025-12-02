@@ -44,7 +44,7 @@ export const atualizarLivro = async (id: number, dados: Partial<ILivro>) => {
     method: 'PUT',
     body: JSON.stringify(dados)
   });
-};
+}; // Partial permite atualizar apenas os campos que voce quer, sem precisar enviar todos os dados, evita criar interfaces
 
 // Deletar livro (admin/bibliotecario)
 export const deletarLivro = async (id: number) => {
