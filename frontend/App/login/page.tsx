@@ -13,7 +13,10 @@ export default function LoginPage() {
   const { login: authLogin } = useAuth();
 
   const decodificarToken = (token: string) => {
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const base64 = token.split('.')[1];
+    const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
+    const jsonPayload = new TextDecoder().decode(bytes);
+    const payload = JSON.parse(jsonPayload);
     return JSON.parse(payload.user);
   };
 
