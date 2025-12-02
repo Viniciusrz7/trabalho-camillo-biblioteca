@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { listarUsuarios, criarUsuario } from '@/Services/usuarioService';
 import { IUsuario } from '@/types';
+import validator from '@/utils/validator';
 
 export const useUsuarios = () => {
     const [usuarios, setUsuarios] = useState<IUsuario[]>([]);
@@ -26,6 +27,13 @@ export const useUsuarios = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        
+        const validacao = validator.validarCadastroUsuario(formData);
+        if (!validacao.valido) {
+            alert(validacao.mensagem);
+            return;
+        }
+
         try {
             await criarUsuario(formData);
             alert('Usuário criado!');
