@@ -57,6 +57,13 @@ export default function Navbar() {
                                 </Link>
 
                                 <Link
+                                    href="/devolucoes"
+                                    className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                                >
+                                    Devoluções
+                                </Link>
+
+                                <Link
                                     href="/relatorios"
                                     className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                                 >
