@@ -15,7 +15,6 @@ export default function Dashboard() {
 
   return (
     <PageContainer>
-      {/* Cabeçalho com saudação */}
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">
           Olá, {user.nome.split(' ')[0]}! 👋
@@ -27,7 +26,6 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* Card de Perfil */}
       <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-6 rounded-lg mb-8 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
@@ -41,18 +39,13 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Atalhos Rápidos */}
-      <h2 className="text-2xl font-bold mb-4">Acesso Rápido</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        
-        {/* Livros - Todos */}
         <Link href="/livros" className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg border border-gray-700 hover:border-indigo-500 transition-all cursor-pointer">
           <div className="text-4xl mb-2">📚</div>
           <h3 className="text-lg font-semibold mb-1">Livros</h3>
           <p className="text-gray-400 text-sm">Consultar acervo</p>
         </Link>
 
-        {/* Empréstimos - Admin/Bibliotecário */}
         {(isAdmin || isBibliotecario) && (
           <Link href="/emprestimos" className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg border border-gray-700 hover:border-green-500 transition-all cursor-pointer">
             <div className="text-4xl mb-2">📖</div>
@@ -61,7 +54,6 @@ export default function Dashboard() {
           </Link>
         )}
 
-        {/* Devoluções - Admin/Bibliotecário */}
         {(isAdmin || isBibliotecario) && (
           <Link href="/devolucoes" className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg border border-gray-700 hover:border-blue-500 transition-all cursor-pointer">
             <div className="text-4xl mb-2">↩️</div>
@@ -70,7 +62,6 @@ export default function Dashboard() {
           </Link>
         )}
 
-        {/* Meus Empréstimos - Aluno */}
         {isAluno && (
           <Link href="/meus-emprestimos" className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg border border-gray-700 hover:border-green-500 transition-all cursor-pointer">
             <div className="text-4xl mb-2">📖</div>
@@ -79,7 +70,6 @@ export default function Dashboard() {
           </Link>
         )}
 
-        {/* Multas - Todos */}
         <Link href="/multas" className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg border border-gray-700 hover:border-red-500 transition-all cursor-pointer">
           <div className="text-4xl mb-2">💰</div>
           <h3 className="text-lg font-semibold mb-1">Multas</h3>
@@ -88,7 +78,6 @@ export default function Dashboard() {
           </p>
         </Link>
 
-        {/* Relatórios - Admin/Bibliotecário */}
         {(isAdmin || isBibliotecario) && (
           <Link href="/relatorios" className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg border border-gray-700 hover:border-yellow-500 transition-all cursor-pointer">
             <div className="text-4xl mb-2">📊</div>
@@ -97,7 +86,6 @@ export default function Dashboard() {
           </Link>
         )}
 
-        {/* Usuários - Admin */}
         {isAdmin && (
           <Link href="/usuarios" className="bg-gray-800 hover:bg-gray-750 p-6 rounded-lg border border-gray-700 hover:border-purple-500 transition-all cursor-pointer">
             <div className="text-4xl mb-2">👥</div>
@@ -107,7 +95,6 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Dicas */}
       <div className="bg-blue-900/20 border border-blue-700 p-4 rounded-lg">
         <h3 className="font-semibold mb-2">💡 Dica</h3>
         <p className="text-gray-300 text-sm">
