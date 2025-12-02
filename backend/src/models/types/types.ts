@@ -44,3 +44,20 @@ export interface IMulta {
   dataPagamento?: Date;
   save?: () => Promise<any>;
 }
+export interface IMultaComRelacionamentos extends IMulta {
+  emprestimo?: {
+    id: number;
+    dataEmprestimo: Date;
+    dataPrevistaDevolucao: Date;
+    livro?: {
+      id: number;
+      titulo: string;
+      autor: string;
+    };
+  };
+  usuario?: {
+    id: number;
+    nome: string;
+    email: string;
+  };
+}
