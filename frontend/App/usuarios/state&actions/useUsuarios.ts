@@ -3,18 +3,11 @@ import { listarUsuarios, criarUsuario, atualizarUsuario, deletarUsuario } from '
 import { IUsuario } from '@/types';
 import validator from '@/validator/validator';
 
-type FormData = {
-    nome: string; email: string; senha: string;
-    tipo: 'admin' | 'bibliotecario' | 'aluno'; matricula: string;
-};
-
-const FORM_INICIAL: FormData = { nome: '', email: '', senha: '', tipo: 'aluno', matricula: '' };
-
 export const useUsuarios = () => {
     const [usuarios, setUsuarios] = useState<IUsuario[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editandoId, setEditandoId] = useState<number | null>(null);
-    const [formData, setFormData] = useState<FormData>(FORM_INICIAL);
+    const [formData, setFormData] = useState({ nome: '', email: '', senha: '', tipo: 'aluno' as 'admin' | 'bibliotecario' | 'aluno', matricula: '' });
 
     useEffect(() => {
         carregarUsuarios();
@@ -32,7 +25,7 @@ export const useUsuarios = () => {
     const resetarForm = () => {
         setShowForm(false);
         setEditandoId(null);
-        setFormData(FORM_INICIAL);
+        setFormData({ nome: '', email: '', senha: '', tipo: 'aluno', matricula: '' });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
