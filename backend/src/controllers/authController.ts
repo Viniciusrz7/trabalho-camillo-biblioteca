@@ -49,7 +49,7 @@ export const login = async (req: Request, res: Response) => {
         });
     } catch (error) {
         return res.status(500).send({
-            message: 'Erro ao realizar login', error: error
+            message: 'Erro ao realizar login'
         });
     }
 };
