@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '@/Services/authService';
 import { useAuth } from '@/app/contexts/AuthContext';
-import validator from '@/utils/validator';
+import validator from '@/validator/validator';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');

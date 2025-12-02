@@ -3,19 +3,6 @@ interface ValidationResult {
   mensagem?: string;
 }
 
-interface LoginData {
-  email: string;
-  senha: string;
-}
-
-interface CadastroUsuarioData {
-  nome: string;
-  email: string;
-  senha: string;
-  tipo: string;
-  matricula?: string;
-}
-
 const validator = {
   validarEmail: (email: string): ValidationResult => {
     if (!email || !email.trim()) {
@@ -27,23 +14,12 @@ const validator = {
     return { valido: true };
   },
 
-  validarEmailLogin: (email: string): ValidationResult => {
-    return validator.validarEmail(email);
-  },
-
   validarSenha: (senha: string): ValidationResult => {
     if (!senha) {
       return { valido: false, mensagem: "Por favor, informe a senha" };
     }
     if (senha.length < 6) {
       return { valido: false, mensagem: "A senha deve ter no mínimo 6 caracteres" };
-    }
-    return { valido: true };
-  },
-
-  validarSenhaLogin: (senha: string): ValidationResult => {
-    if (!senha) {
-      return { valido: false, mensagem: "Por favor, informe sua senha" };
     }
     return { valido: true };
   },
@@ -62,49 +38,64 @@ const validator = {
     if (!matricula || !matricula.trim()) {
       return { valido: false, mensagem: "Por favor, informe a matrícula" };
     }
-    if (matricula.trim().length < 3) {
-      return { valido: false, mensagem: "Matrícula deve ter no mínimo 3 caracteres" };
-    }
     return { valido: true };
   },
 
-  validarTipo: (tipo: string): ValidationResult => {
-    const tiposValidos = ['aluno', 'bibliotecario', 'admin'];
-    if (!tipo || !tiposValidos.includes(tipo)) {
-      return { valido: false, mensagem: "Tipo de usuário inválido" };
-    }
-    return { valido: true };
-  },
-
-  validarLogin: (dados: LoginData): ValidationResult => {
-    const { email, senha } = dados;
-
-    const resultadoEmail = validator.validarEmailLogin(email);
+  validarLogin: (dados: { email: string; senha: string }): ValidationResult => {
+    const resultadoEmail = validator.validarEmail(dados.email);
     if (!resultadoEmail.valido) return resultadoEmail;
 
-    const resultadoSenha = validator.validarSenhaLogin(senha);
-    if (!resultadoSenha.valido) return resultadoSenha;
+    if (!dados.senha) {
+      return { valido: false, mensagem: "Por favor, informe sua senha" };
+    }
 
     return { valido: true };
   },
 
-  validarCadastroUsuario: (dados: CadastroUsuarioData): ValidationResult => {
-    const { nome, email, senha, tipo, matricula } = dados;
-
-    const resultadoNome = validator.validarNome(nome);
+  validarCadastroUsuario: (dados: {
+    nome: string;
+    email: string;
+    senha: string;
+    tipo: string;
+    matricula?: string;
+  }): ValidationResult => {
+    const resultadoNome = validator.validarNome(dados.nome);
     if (!resultadoNome.valido) return resultadoNome;
 
-    const resultadoEmail = validator.validarEmail(email);
+    const resultadoEmail = validator.validarEmail(dados.email);
     if (!resultadoEmail.valido) return resultadoEmail;
 
-    const resultadoSenha = validator.validarSenha(senha);
+    const resultadoSenha = validator.validarSenha(dados.senha);
     if (!resultadoSenha.valido) return resultadoSenha;
 
-    const resultadoTipo = validator.validarTipo(tipo);
-    if (!resultadoTipo.valido) return resultadoTipo;
+    if (dados.tipo === 'aluno' && dados.matricula) {
+      const resultadoMatricula = validator.validarMatricula(dados.matricula);
+      if (!resultadoMatricula.valido) return resultadoMatricula;
+    }
 
-    if (tipo === 'aluno') {
-      const resultadoMatricula = validator.validarMatricula(matricula || '');
+    return { valido: true };
+  },
+
+  validarEdicaoUsuario: (dados: {
+    nome: string;
+    email: string;
+    senha?: string;
+    tipo: string;
+    matricula?: string;
+  }): ValidationResult => {
+    const resultadoNome = validator.validarNome(dados.nome);
+    if (!resultadoNome.valido) return resultadoNome;
+
+    const resultadoEmail = validator.validarEmail(dados.email);
+    if (!resultadoEmail.valido) return resultadoEmail;
+
+    if (dados.senha && dados.senha.trim()) {
+      const resultadoSenha = validator.validarSenha(dados.senha);
+      if (!resultadoSenha.valido) return resultadoSenha;
+    }
+
+    if (dados.tipo === 'aluno' && dados.matricula) {
+      const resultadoMatricula = validator.validarMatricula(dados.matricula);
       if (!resultadoMatricula.valido) return resultadoMatricula;
     }
 

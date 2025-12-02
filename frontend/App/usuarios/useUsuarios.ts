@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { listarUsuarios, criarUsuario, atualizarUsuario, deletarUsuario } from '@/Services/usuarioService';
 import { IUsuario } from '@/types';
-import validator from '@/utils/validator';
+import validator from '@/validator/validator';
 
 type FormData = {
     nome: string; email: string; senha: string;
