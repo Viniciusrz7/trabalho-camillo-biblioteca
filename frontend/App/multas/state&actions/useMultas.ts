@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { listarMultas, pagarMulta } from '@/Services/multaService';
+import { listarMultas, minhasMultas, pagarMulta } from '@/Services/multaService';
 import { IMulta } from '@/types';
 import { useAuth } from '@/app/contexts/AuthContext';
 
@@ -14,7 +14,10 @@ export const useMultas = () => {
 
   const carregarMultas = async () => {
     try {
-      const data = await listarMultas();
+      // Se for aluno, busca apenas suas multas
+      const data = user?.tipo === 'aluno' 
+        ? await minhasMultas() 
+        : await listarMultas();
       setMultas(data);
     } catch (error) {
       alert('Erro ao carregar multas');
