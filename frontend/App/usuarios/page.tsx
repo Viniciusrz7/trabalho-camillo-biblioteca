@@ -108,7 +108,7 @@ export default function UsuariosPage() {
                       {u.tipo}
                     </span>
                   </td>
-                  <td className="py-3">{u.matricula || '-'}</td>
+                  <td className="py-3">{u.matricula}</td>
                   <td className="py-3">
                     <div className="flex gap-2">
                       <button onClick={() => actions.handleEditar(u)} className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">Editar</button>

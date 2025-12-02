@@ -114,7 +114,7 @@ export default function LivrosPage() {
                 <tr key={livro.id} className="border-b border-gray-700">
                   <td className="py-3">{livro.titulo}</td>
                   <td className="py-3">{livro.autor}</td>
-                  <td className="py-3">{livro.categoria || '-'}</td>
+                  <td className="py-3">{livro.categoria}</td>
                   <td className="py-3">
                     <span className={`px-2 py-1 rounded text-sm ${livro.quantidadeDisponivel > 0 ? 'bg-green-600' : 'bg-red-600'}`}>
                       {livro.quantidadeDisponivel}
