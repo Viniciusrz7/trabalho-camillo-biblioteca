@@ -1,19 +1,6 @@
-import { API_URL, getAuthHeaders } from './api';
+import { API_URL } from './api';
 import { IUsuario } from '@/types';
-
-// Função auxiliar para requisições
-const request = async (url: string, options: RequestInit = {}) => {
-  const response = await fetch(url, {
-    headers: getAuthHeaders(),
-    ...options
-  });
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'Erro na requisição' }));
-    throw new Error(error.message);
-  }
-  return response.status === 204 ? null : await response.json();
-};
+import { request } from './utils/utils';
 
 // Criar usuário (só admin)
 export const criarUsuario = async (dados: {
