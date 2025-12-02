@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import db from '../src/models/index';
+import db from '../models/index';
 
 const Usuario = db.Usuario;
 
@@ -37,5 +37,4 @@ async function seed() {
     process.exit(1);
   }
 }
-
 seed();
