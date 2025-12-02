@@ -13,9 +13,13 @@ export default function LoginPage() {
   const { login: authLogin } = useAuth();
 
   const decodificarToken = (token: string) => {
-    const base64 = token.split('.')[1];
-    const bytes = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
-    const jsonPayload = new TextDecoder().decode(bytes);
+    const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
     const payload = JSON.parse(jsonPayload);
     return JSON.parse(payload.user);
   };
