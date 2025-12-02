@@ -4,24 +4,12 @@ import { listarLivros } from '@/Services/livroService';
 import { listarUsuarios } from '@/Services/usuarioService';
 import { IEmprestimo, ILivro, IUsuario } from '@/types';
 
-type FormData = {
-  usuarioId: string;
-  livroId: string;
-  dataPrevistaDevolucao: string;
-};
-
-const FORM_INICIAL: FormData = {
-  usuarioId: '',
-  livroId: '',
-  dataPrevistaDevolucao: ''
-};
-
 export const useEmprestimos = () => {
   const [emprestimos, setEmprestimos] = useState<IEmprestimo[]>([]);
   const [livros, setLivros] = useState<ILivro[]>([]);
   const [usuarios, setUsuarios] = useState<IUsuario[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState<FormData>(FORM_INICIAL);
+  const [formData, setFormData] = useState({ usuarioId: '', livroId: '', dataPrevistaDevolucao: '' });
 
   useEffect(() => {
     carregarDados();
@@ -44,7 +32,7 @@ export const useEmprestimos = () => {
 
   const resetarForm = () => {
     setShowForm(false);
-    setFormData(FORM_INICIAL);
+    setFormData({ usuarioId: '', livroId: '', dataPrevistaDevolucao: '' });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -3,31 +3,19 @@ import { listarLivros, cadastrarLivro, atualizarLivro, deletarLivro } from '@/Se
 import { ILivro } from '@/types';
 import validator from '@/validator/validator';
 
-type FormData = {
-  titulo: string;
-  autor: string;
-  editora: string;
-  anoPublicacao: string;
-  categoria: string;
-  quantidadeTotal: string;
-  localizacao: string;
-};
-
-const FORM_INICIAL: FormData = {
-  titulo: '',
-  autor: '',
-  editora: '',
-  anoPublicacao: '',
-  categoria: '',
-  quantidadeTotal: '',
-  localizacao: ''
-};
-
 export const useLivros = () => {
   const [livros, setLivros] = useState<ILivro[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [editandoId, setEditandoId] = useState<number | null>(null);
-  const [formData, setFormData] = useState<FormData>(FORM_INICIAL);
+  const [formData, setFormData] = useState({
+    titulo: '',
+    autor: '',
+    editora: '',
+    anoPublicacao: '',
+    categoria: '',
+    quantidadeTotal: '',
+    localizacao: ''
+  });
 
   useEffect(() => {
     carregarLivros();
@@ -45,7 +33,15 @@ export const useLivros = () => {
   const resetarForm = () => {
     setShowForm(false);
     setEditandoId(null);
-    setFormData(FORM_INICIAL);
+    setFormData({
+      titulo: '',
+      autor: '',
+      editora: '',
+      anoPublicacao: '',
+      categoria: '',
+      quantidadeTotal: '',
+      localizacao: ''
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
