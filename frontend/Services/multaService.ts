@@ -1,5 +1,5 @@
 import { API_URL } from './api';
-import { IMulta } from '@/types';
+import { IMulta } from '@/app/types';
 import { request } from './utils/utils';
 
 // Listar todas multas (admin/bibliotecario)

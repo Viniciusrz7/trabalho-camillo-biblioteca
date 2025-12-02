@@ -1,5 +1,5 @@
 import { API_URL } from './api';
-import { IEmprestimo } from '@/types';
+import { IEmprestimo } from '@/app/types';
 import { request } from './utils/utils';
 
 // Livros emprestados por aluno
