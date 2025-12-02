@@ -38,24 +38,32 @@ export default function DevolucoesPage() {
               </tr>
             </thead>
             <tbody>
-              {state.emprestimosAtivos.map((emp) => (
-                <tr key={emp.id} className="border-b border-gray-700">
-                  <td className="py-3">{emp.usuarioId}</td>
-                  <td className="py-3">{emp.livroId}</td>
-                  <td className="py-3">{new Date(emp.dataEmprestimo).toLocaleDateString()}</td>
-                  <td className="py-3">{new Date(emp.dataPrevistaDevolucao).toLocaleDateString()}</td>
-                  <td className="py-3">
-                    <span className={`px-2 py-1 rounded text-sm ${emp.diasAtraso > 0 ? 'bg-red-600' : 'bg-green-600'}`}>
-                      {emp.diasAtraso > 0 ? `${emp.diasAtraso} dias` : 'No prazo'}
-                    </span>
-                  </td>
-                  <td className="py-3">
-                    <button onClick={() => actions.handleDevolucao(emp.id!)} className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
-                      Registrar Devolução
-                    </button>
+              {state.emprestimosAtivos.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center py-8 text-gray-400">
+                    Nenhum empréstimo ativo para devolução
                   </td>
                 </tr>
-              ))}
+              ) : (
+                state.emprestimosAtivos.map((emp) => (
+                  <tr key={emp.id} className="border-b border-gray-700">
+                    <td className="py-3">{emp.usuarioId}</td>
+                    <td className="py-3">{emp.livroId}</td>
+                    <td className="py-3">{new Date(emp.dataEmprestimo).toLocaleDateString()}</td>
+                    <td className="py-3">{new Date(emp.dataPrevistaDevolucao).toLocaleDateString()}</td>
+                    <td className="py-3">
+                      <span className={`px-2 py-1 rounded text-sm ${emp.diasAtraso > 0 ? 'bg-red-600' : 'bg-green-600'}`}>
+                        {emp.diasAtraso > 0 ? `${emp.diasAtraso} dias` : 'No prazo'}
+                      </span>
+                    </td>
+                    <td className="py-3">
+                      <button onClick={() => actions.handleDevolucao(emp.id!)} className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
+                        Registrar Devolução
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

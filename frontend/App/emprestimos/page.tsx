@@ -86,19 +86,27 @@ export default function EmprestimosPage() {
               </tr>
             </thead>
             <tbody>
-              {state.emprestimos.map((emp) => (
-                <tr key={emp.id} className="border-b border-gray-700">
-                  <td className="py-3">{emp.usuarioId}</td>
-                  <td className="py-3">{emp.livroId}</td>
-                  <td className="py-3">{new Date(emp.dataEmprestimo).toLocaleDateString()}</td>
-                  <td className="py-3">{new Date(emp.dataPrevistaDevolucao).toLocaleDateString()}</td>
-                  <td className="py-3">
-                    <span className={`px-2 py-1 rounded text-sm ${emp.status === 'ativo' ? 'bg-green-600' : emp.status === 'atrasado' ? 'bg-red-600' : 'bg-gray-600'}`}>
-                      {emp.status}
-                    </span>
+              {state.emprestimos.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="text-center py-8 text-gray-400">
+                    Nenhum empréstimo encontrado
                   </td>
                 </tr>
-              ))}
+              ) : (
+                state.emprestimos.map((emp) => (
+                  <tr key={emp.id} className="border-b border-gray-700">
+                    <td className="py-3">{emp.usuarioId}</td>
+                    <td className="py-3">{emp.livroId}</td>
+                    <td className="py-3">{new Date(emp.dataEmprestimo).toLocaleDateString()}</td>
+                    <td className="py-3">{new Date(emp.dataPrevistaDevolucao).toLocaleDateString()}</td>
+                    <td className="py-3">
+                      <span className={`px-2 py-1 rounded text-sm ${emp.status === 'ativo' ? 'bg-green-600' : emp.status === 'atrasado' ? 'bg-red-600' : 'bg-gray-600'}`}>
+                        {emp.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
