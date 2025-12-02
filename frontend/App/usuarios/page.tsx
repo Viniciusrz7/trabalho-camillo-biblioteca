@@ -12,8 +12,13 @@ export default function UsuariosPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showMatricula, setShowMatricula] = useState(false);
 
-  useEffect(() => { if (user?.tipo !== 'admin') router.push('/dashboard'); }, [user, router]);
-  if (user?.tipo !== 'admin') return null;
+  const podeAcessar = user?.tipo === 'admin';
+
+  useEffect(() => {
+    if (!podeAcessar) router.push('/dashboard');
+  }, [podeAcessar, router]);
+
+  if (!podeAcessar) return null;
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">

@@ -100,6 +100,27 @@ const validator = {
     }
 
     return { valido: true };
+  },
+
+  validarCadastroLivro: (dados: {
+    titulo: string;
+    autor: string;
+    quantidadeTotal: string;
+  }): ValidationResult => {
+    if (!dados.titulo || !dados.titulo.trim()) {
+      return { valido: false, mensagem: "Por favor, informe o título do livro" };
+    }
+
+    if (!dados.autor || !dados.autor.trim()) {
+      return { valido: false, mensagem: "Por favor, informe o autor do livro" };
+    }
+
+    const quantidade = parseInt(dados.quantidadeTotal);
+    if (isNaN(quantidade) || quantidade < 1) {
+      return { valido: false, mensagem: "Quantidade deve ser um número maior que zero" };
+    }
+
+    return { valido: true };
   }
 };
 
