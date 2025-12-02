@@ -75,21 +75,23 @@ export default function LivrosPage() {
                 className="w-full px-4 py-2 bg-gray-700 rounded-lg text-white"
               />
               <input
-                type="number"
-                placeholder="Quantidade Total *"
-                required
-                min="1"
-                value={state.formData.quantidadeTotal}
-                onChange={(e) => actions.setFormData({ ...state.formData, quantidadeTotal: e.target.value })}
-                className="w-full px-4 py-2 bg-gray-700 rounded-lg text-white"
-              />
-              <input
                 type="text"
                 placeholder="Localização (ex: Estante A, Prateleira 3)"
                 value={state.formData.localizacao}
                 onChange={(e) => actions.setFormData({ ...state.formData, localizacao: e.target.value })}
-                className="w-full px-4 py-2 bg-gray-700 rounded-lg text-white md:col-span-2"
+                className="w-full px-4 py-2 bg-gray-700 rounded-lg text-white"
               />
+              {!state.editandoId && (
+                <input
+                  type="number"
+                  placeholder="Quantidade Total *"
+                  required
+                  min="1"
+                  value={state.formData.quantidadeTotal}
+                  onChange={(e) => actions.setFormData({ ...state.formData, quantidadeTotal: e.target.value })}
+                  className="w-full px-4 py-2 bg-gray-700 rounded-lg text-white md:col-span-2"
+                />
+              )}
               <button type="submit" className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg md:col-span-2">
                 {state.editandoId ? 'Atualizar' : 'Cadastrar'}
               </button>
