@@ -62,9 +62,9 @@ export default function EmprestimosPage() {
                 type="date"
                 value={state.formData.dataPrevistaDevolucao}
                 onChange={(e) => actions.setFormData({ ...state.formData, dataPrevistaDevolucao: e.target.value })}
+                min={new Date().toISOString().split('T')[0]}
                 className="w-full px-4 py-2 bg-gray-700 rounded-lg text-white"
                 required
-                min={new Date().toISOString().split('T')[0]}
               />
 
               <button type="submit" className="bg-green-600 hover:bg-green-700 py-2 rounded-lg">

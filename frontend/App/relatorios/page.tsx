@@ -43,8 +43,8 @@ export default function RelatoriosPage() {
             return (
               <tr key={emp.id} className={`border-b border-gray-700 ${state.tipoRelatorio === 'atrasados' ? 'bg-red-900/20' : ''}`}>
                 <td className="py-3">#{emp.id}</td>
-                <td className="py-3">{emp.Usuario?.nome || 'N/A'}</td>
-                <td className="py-3">{emp.Livro?.titulo || 'N/A'}</td>
+                <td className="py-3">{(emp as any).Usuario?.nome || (emp as any).usuario?.nome || 'N/A'}</td>
+                <td className="py-3">{(emp as any).Livro?.titulo || (emp as any).livro?.titulo || 'N/A'}</td>
                 <td className="py-3">{new Date(emp.dataEmprestimo).toLocaleDateString('pt-BR')}</td>
                 <td className="py-3">{new Date(emp.dataPrevistaDevolucao).toLocaleDateString('pt-BR')}</td>
                 {state.tipoRelatorio === 'atrasados' && (

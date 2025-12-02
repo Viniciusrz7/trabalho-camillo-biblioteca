@@ -15,6 +15,14 @@ export const criar = async (req: Request, res: Response) => {
             return res.status(400).send({ message: 'UsuarioId, livroId e dataPrevistaDevolucao são obrigatórios' });
         }
 
+        // Validar se a data de devolução é futura
+        const dataEmprestimo = new Date();
+        const dataDevolucao = new Date(dataPrevistaDevolucao);
+        
+        if (dataDevolucao <= dataEmprestimo) {
+            return res.status(400).send({ message: 'A data de devolução prevista deve ser posterior à data atual' });
+        }
+
         const usuario = await Usuario.findByPk(usuarioId);
         if (!usuario) {
             return res.status(404).send({ message: 'Usuário não encontrado' });
@@ -29,7 +37,7 @@ export const criar = async (req: Request, res: Response) => {
             return res.status(400).send({ message: 'Livro indisponível para empréstimo' });
         }
 
-        const emprestimo = await Emprestimo.create({usuarioId, livroId,dataEmprestimo: new Date(),
+        const emprestimo = await Emprestimo.create({usuarioId, livroId,dataEmprestimo,
             dataPrevistaDevolucao,status: 'ativo', diasAtraso: 0
         }) as unknown as IEmprestimo;
 
