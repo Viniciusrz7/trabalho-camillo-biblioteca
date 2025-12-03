@@ -27,10 +27,10 @@ export default function RelatoriosPage() {
         onFilterChange={(value) => actions.setTipoRelatorio(value as 'ativos' | 'atrasados')}
       />
 
-      <Table headers={['ID', 'Aluno', 'Livro', 'Data Empréstimo', 'Devolução Prevista', ...(state.tipoRelatorio === 'atrasados' ? ['Dias Atraso'] : [])]}>
+      <Table headers={['Aluno', 'Livro', 'Data Empréstimo', 'Devolução Prevista', ...(state.tipoRelatorio === 'atrasados' ? ['Dias Atraso'] : [])]}>
         {emprestimosExibidos.length === 0 ? (
           <tr>
-            <td colSpan={state.tipoRelatorio === 'atrasados' ? 6 : 5} className="text-center py-8 text-gray-400">
+            <td colSpan={state.tipoRelatorio === 'atrasados' ? 5 : 4} className="text-center py-8 text-gray-400">
               Nenhum empréstimo encontrado
             </td>
           </tr>
@@ -42,7 +42,6 @@ export default function RelatoriosPage() {
             
             return (
               <tr key={emp.id} className={`border-b border-gray-700 ${state.tipoRelatorio === 'atrasados' ? 'bg-red-900/20' : ''}`}>
-                <td className="py-3">#{emp.id}</td>
                 <td className="py-3">{(emp as any).Usuario?.nome || (emp as any).usuario?.nome || 'N/A'}</td>
                 <td className="py-3">{(emp as any).Livro?.titulo || (emp as any).livro?.titulo || 'N/A'}</td>
                 <td className="py-3">{new Date(emp.dataEmprestimo).toLocaleDateString('pt-BR')}</td>
