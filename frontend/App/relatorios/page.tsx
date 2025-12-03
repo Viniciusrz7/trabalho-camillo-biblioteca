@@ -16,6 +16,7 @@ export default function RelatoriosPage() {
         title="Relatórios" 
         buttonText="Atualizar"
         onButtonClick={actions.carregarRelatorios}
+        loading={state.loading}
       />
 
       <FilterButtons

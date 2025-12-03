@@ -8,26 +8,33 @@ export const useRelatorios = () => {
   const [ativos, setAtivos] = useState<IEmprestimo[]>([]);
   const [atrasados, setAtrasados] = useState<IEmprestimo[]>([]);
   const [tipoRelatorio, setTipoRelatorio] = useState<'ativos' | 'atrasados'>('ativos');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     carregarRelatorios();
   }, []);
 
   const carregarRelatorios = async () => {
+    setLoading(true);
     try {
       const [resAtivos, resAtrasados] = await Promise.all([
         emprestimosAtivos(),
         emprestimosAtrasados()
       ]);
+      
+      await new Promise(resolve => setTimeout(resolve, 2500));
+      
       setAtivos(resAtivos.emprestimos);
       setAtrasados(resAtrasados.emprestimos);
     } catch (error) {
       alert('Erro ao carregar relatórios');
+    } finally {
+      setLoading(false);
     }
   };
 
   return {
-    state: { ativos, atrasados, tipoRelatorio, user },
+    state: { ativos, atrasados, tipoRelatorio, user, loading },
     actions: { setTipoRelatorio, carregarRelatorios }
   };
 };
