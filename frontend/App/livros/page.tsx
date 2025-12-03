@@ -97,8 +97,13 @@ export default function LivrosPage() {
                   className="w-full px-4 py-2 bg-gray-700 rounded-lg text-white md:col-span-2"
                 />
               )}
-              <button type="submit" className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg md:col-span-2">
-                {state.editandoId ? 'Atualizar' : 'Cadastrar'}
+              <button 
+                type="submit" 
+                disabled={state.loading}
+                className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg md:col-span-2 disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {state.loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+                {state.loading ? 'Salvando...' : state.editandoId ? 'Atualizar' : 'Cadastrar'}
               </button>
             </form>
           </div>

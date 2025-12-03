@@ -57,8 +57,12 @@ export default function DevolucoesPage() {
                       </span>
                     </td>
                     <td className="py-3">
-                      <button onClick={() => actions.handleDevolucao(emp.id!)} className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm">
-                        Registrar Devolução
+                      <button 
+                        onClick={() => actions.handleDevolucao(emp.id!)} 
+                        disabled={state.loading}
+                        className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm disabled:bg-gray-600 disabled:cursor-not-allowed"
+                      >
+                        {state.loading ? 'Processando...' : 'Registrar Devolução'}
                       </button>
                     </td>
                   </tr>

@@ -67,8 +67,13 @@ export default function EmprestimosPage() {
                 required
               />
 
-              <button type="submit" className="bg-green-600 hover:bg-green-700 py-2 rounded-lg">
-                Registrar Empréstimo
+              <button 
+                type="submit" 
+                disabled={state.loading}
+                className="bg-green-600 hover:bg-green-700 py-2 rounded-lg disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {state.loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+                {state.loading ? 'Registrando...' : 'Registrar Empréstimo'}
               </button>
             </form>
           </div>

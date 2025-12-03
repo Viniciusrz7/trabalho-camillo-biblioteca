@@ -83,8 +83,13 @@ export default function UsuariosPage() {
                   setShow={setShowMatricula}
                 />
               )}
-              <button type="submit" className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg">
-                {state.editandoId ? 'Atualizar' : 'Cadastrar'}
+              <button 
+                type="submit" 
+                disabled={state.loading}
+                className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg disabled:bg-gray-600 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {state.loading && <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>}
+                {state.loading ? 'Salvando...' : state.editandoId ? 'Atualizar' : 'Cadastrar'}
               </button>
             </form>
           </div>

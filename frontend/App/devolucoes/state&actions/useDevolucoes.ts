@@ -5,6 +5,7 @@ import { IEmprestimo } from '@/types';
 
 export const useDevolucoes = () => {
   const [emprestimosAtivos, setEmprestimosAtivos] = useState<IEmprestimo[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     carregarEmprestimosAtivos();
@@ -24,6 +25,7 @@ export const useDevolucoes = () => {
   const handleDevolucao = async (emprestimoId: number) => {
     if (!confirm('Confirmar devolução deste livro?')) return;
 
+    setLoading(true);
     try {
       const resultado = await registrarDevolucao(emprestimoId);
       
@@ -37,11 +39,13 @@ export const useDevolucoes = () => {
     } catch (error) {
       const mensagem = error instanceof Error ? error.message : 'Erro ao registrar devolução';
       alert(mensagem);
+    } finally {
+      setLoading(false);
     }
   };
 
   return {
-    state: { emprestimosAtivos },
+    state: { emprestimosAtivos, loading },
     actions: { handleDevolucao }
   };
 };

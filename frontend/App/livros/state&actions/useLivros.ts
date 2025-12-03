@@ -7,6 +7,7 @@ export const useLivros = () => {
     const [livros, setLivros] = useState<ILivro[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editandoId, setEditandoId] = useState<number | null>(null);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         titulo: '', autor: '', editora: '', anoPublicacao: '',
         categoria: '', quantidadeTotal: '', localizacao: ''
@@ -42,6 +43,7 @@ export const useLivros = () => {
             return;
         }
 
+        setLoading(true);
         try {
             const dados = {
                 titulo: formData.titulo,
@@ -65,6 +67,8 @@ export const useLivros = () => {
         } catch (error) {
             const mensagem = error instanceof Error ? error.message : 'Erro ao salvar livro';
             alert(mensagem);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -87,6 +91,7 @@ export const useLivros = () => {
     const handleExcluir = async (id?: number) => {
         if (!id || !confirm('Tem certeza que deseja excluir este livro?')) return;
 
+        setLoading(true);
         try {
             await deletarLivro(id);
             alert('Livro excluído!');
@@ -94,11 +99,13 @@ export const useLivros = () => {
         } catch (error) {
             const mensagem = error instanceof Error ? error.message : 'Erro ao excluir livro';
             alert(mensagem);
+        } finally {
+            setLoading(false);
         }
     };
 
     return {
-        state: { livros, showForm, formData, editandoId },
+        state: { livros, showForm, formData, editandoId, loading },
         actions: { setShowForm, setFormData, handleSubmit, handleEditar, handleExcluir, handleCancelar: resetarForm }
     };
 };

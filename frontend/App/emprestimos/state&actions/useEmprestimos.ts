@@ -9,6 +9,7 @@ export const useEmprestimos = () => {
   const [livros, setLivros] = useState<ILivro[]>([]);
   const [usuarios, setUsuarios] = useState<IUsuario[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({ usuarioId: '', livroId: '', dataPrevistaDevolucao: '' });
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export const useEmprestimos = () => {
       return;
     }
 
+    setLoading(true);
     try {
       await criarEmprestimo({
         usuarioId: parseInt(formData.usuarioId),
@@ -55,11 +57,13 @@ export const useEmprestimos = () => {
     } catch (error) {
       const mensagem = error instanceof Error ? error.message : 'Erro ao registrar empréstimo';
       alert(mensagem);
+    } finally {
+      setLoading(false);
     }
   };
 
   return {
-    state: { emprestimos, livros, usuarios, showForm, formData },
+    state: { emprestimos, livros, usuarios, showForm, formData, loading },
     actions: { setShowForm, setFormData, handleSubmit, handleCancelar: resetarForm }
   };
 };

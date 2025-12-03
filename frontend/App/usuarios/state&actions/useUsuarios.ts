@@ -7,6 +7,7 @@ export const useUsuarios = () => {
     const [usuarios, setUsuarios] = useState<IUsuario[]>([]);
     const [showForm, setShowForm] = useState(false);
     const [editandoId, setEditandoId] = useState<number | null>(null);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({ nome: '', email: '', senha: '', tipo: 'aluno' as 'admin' | 'bibliotecario' | 'aluno', matricula: '' });
 
     useEffect(() => {
@@ -39,6 +40,7 @@ export const useUsuarios = () => {
             return;
         }
 
+        setLoading(true);
         try {
             if (editandoId) {
                 const dados: Partial<IUsuario> = {
@@ -59,6 +61,8 @@ export const useUsuarios = () => {
         } catch (error) {
             const mensagem = error instanceof Error ? error.message : 'Erro ao salvar usuário';
             alert(mensagem);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -77,6 +81,7 @@ export const useUsuarios = () => {
 
     const handleExcluir = async (id?: number) => {
         if (!id || !confirm('Tem certeza que deseja excluir este usuário?')) return;
+        setLoading(true);
         try {
             await deletarUsuario(id);
             alert('Usuário excluído!');
@@ -84,11 +89,13 @@ export const useUsuarios = () => {
         } catch (error) {
             const mensagem = error instanceof Error ? error.message : 'Erro ao excluir usuário';
             alert(mensagem);
+        } finally {
+            setLoading(false);
         }
     };
 
     return {
-        state: { usuarios, showForm, formData, editandoId },
+        state: { usuarios, showForm, formData, editandoId, loading },
         actions: { setShowForm, setFormData, handleSubmit, handleEditar, handleExcluir, handleCancelar: resetarForm }
     };
 };
