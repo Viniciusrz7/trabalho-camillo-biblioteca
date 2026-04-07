@@ -11,3 +11,4 @@ router.post('/logout', auth.logout);
 export default (app: express.Application) => {
   app.use('/auth', router);
 };
+
